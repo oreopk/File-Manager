@@ -1,7 +1,7 @@
 import fs from 'fs';
 import os from 'os';
 import { createInterface } from 'node:readline/promises';
-import { stdin, stdout } from 'node:process';
+import { stdin, stdout, exit }from 'node:process';
 
 let user ='User';
 for (let i = 2; i < process.argv.length; i++) {
@@ -36,6 +36,10 @@ async function UserInput() {
    const input = await rl.question(`${currentDir}> `);
     if (input === 'ls') {
         ls();
+    } else if (input === '.exit') {
+        console.log('GoodBye')
+        rl.close();
+        return;
     } else {
       console.log('Invalid command');
     }
@@ -43,3 +47,8 @@ async function UserInput() {
 }
 
 UserInput();
+
+rl.on('close', () => {
+   console.log('GoodBye')
+   exit(0);
+});
